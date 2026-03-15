@@ -1,0 +1,44 @@
+Day-1
+Reverse a string without using built-in reverse.
+
+s = "apple"
+
+reversed = s[::-1]
+
+Find the second largest number in a list.
+
+l = [2,6,4,3,9,10,1,4]
+
+sortedl = list(set(sorted(l)))
+
+second_largest = sorted_l[1]
+
+print("second_largest", second_largest)
+
+Count vowels in a sentence
+
+s = "Count vowels in a sentence"
+counter = 0
+for lower(i) in s:
+  if lower(i) in ('a', 'e', 'i', 'o', 'u'):
+        counter = counter + 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
