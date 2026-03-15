@@ -1,0 +1,14 @@
+Day-1 — Data Cleaning Script
+
+Write a Python script that:
+Loads a CSV
+Removes duplicates
+Fills missing values
+Saves cleaned file
+
+df = pd.read_csv("")
+df = df.deduplicated()
+
+df = df.fillna(0)
+
+pd.to_csv("cleaned file", df)
