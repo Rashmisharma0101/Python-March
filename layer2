@@ -3,8 +3,8 @@ Day-1
 Tasks:
 
 Load CSV using pandas.
-
-df = pd.read_csv("")
+import pandas as pd
+df = pd.read_csv("data.csv")
 
 Show first 10 rows.
 
