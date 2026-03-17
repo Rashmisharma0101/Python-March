@@ -15,23 +15,21 @@ def func1(str):
 Replace multiple spaces with one space
 str = input('enter the string')
 def func1(str):
-  newstr = str.replace("  ", " ")
+  newstr = " ".join(str.split())
   return newstr
-# will chcek he spaces once only???
+# will check the spaces once only??? - split() automatically splits on any number of spaces.
 ------------------------------------------------------
 Remove special characters
 str = input('enter the string')
 def func1(str):
-  for i in str:
-    if i in ('@', '#', '!'):
-      newstr = str.replace(i, "")
-  return newstr
+  for ch in "@#!":
+      str = str.replace(ch, "")
+  return str  ????????????????????????????????????????????????????????????????
 ------------------------------------------------------
 Convert string number to integer
 num = input('enter the number')
 def func1(num):
-  intnum = num.astype(int)
-  return intnum
+  return int(num)
 
 ------------------------------------------------------
 Remove commas from numbers
@@ -56,7 +54,7 @@ Remove duplicate spaces and convert to lowercase
 
 str = input('enter the string')
 def func1(str):
-  newstr = str.replace("  ", " ")
+  newstr = " ".join(str.split())
   newstr = newstr.lower()
   return newstr
 
@@ -72,6 +70,39 @@ def func1(num):
   return num
 
 ---------------------------------------------------------
+Standardize names
+
+
+
+---------------------------------------------------------
+Clean product names
+str = input('enter the string')
+def func1(str):
+  for i in str:
+    if i in ('@', '#', '!'):
+      newstr = str.replace(i, "")
+      newstr = newstr.lower()
+      newstr = newstr.strip()
+      newstr = " ".join(newstr.split())
+      return newstr
+
+---------------------------------------------------------
+Extract email domain
+str = input('enter the string')
+def func1(str):
+
+
+
+-------------------------------------------------------
+Clean salary column
+
+
+
+
+-------------------------------------------------------
+Remove stop words
+
+
 
 
         
