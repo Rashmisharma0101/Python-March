@@ -24,7 +24,7 @@ str = input('enter the string')
 def func1(str):
   for ch in "@#!":
       str = str.replace(ch, "")
-  return str  ????????????????????????????????????????????????????????????????
+  return str 
 ------------------------------------------------------
 Convert string number to integer
 num = input('enter the number')
@@ -36,7 +36,7 @@ Remove commas from numbers
 num = input('enter the number')
 def func1(num):
   newnum = num.replace(",", "")
-  newnum = newnum.astype(int)
+  newnum = int(newnum)
   return newnum
 
 ------------------------------------------------------
@@ -45,17 +45,17 @@ num = input('enter the alphanumber')
 s = ""
 def func1(num):
   for i in num:
-    if i in ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):
-        s.join(i)
-  return s
+    if i.isdigit():
+        s += i
+  return int(s)
 
 ---------------------------------------------------------
 Remove duplicate spaces and convert to lowercase
 
 str = input('enter the string')
 def func1(str):
-  newstr = " ".join(str.split())
   newstr = newstr.lower()
+  newstr = " ".join(str.split())
   return newstr
 
 ---------------------------------------------------------
@@ -64,25 +64,28 @@ num = input('enter the currency')
 s = ""
 def func1(num):
   for i in num:
-    if i in ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):
-        s.join(i)
-  num = s.astype(int)
-  return num
+    if i.isdigit():
+        s += i
+  
+  return int(s)
 
 ---------------------------------------------------------
 Standardize names
+def standardize_name(name):
 
+    name = name.strip()            # remove leading/trailing spaces
+    name = " ".join(name.split())  # remove extra spaces
+    name = name.title()            # capitalize each word
 
+    return name
 
 ---------------------------------------------------------
 Clean product names
 str = input('enter the string')
+import re
 def func1(str):
-  for i in str:
-    if i in ('@', '#', '!'):
-      newstr = str.replace(i, "")
       newstr = newstr.lower()
-      newstr = newstr.strip()
+      newstr = re.sub(r'[^a-z0-9 ]',' ',newstr)
       newstr = " ".join(newstr.split())
       return newstr
 
@@ -90,18 +93,32 @@ def func1(str):
 Extract email domain
 str = input('enter the string')
 def func1(str):
-
-
+  parts = str.split('@')
+  return parts[1]
 
 -------------------------------------------------------
 Clean salary column
-
-
-
+salary = ["₹50,000", "₹75,500", "₹1,20,000"]
+def func1(salary):
+  cleaned = []
+  
+  for i in salary:
+    salary = salary.replace("₹","")
+    salary = salary.replace(",","")
+    cleaned.append(int(salary))
+  return cleaned
 
 -------------------------------------------------------
 Remove stop words
+"this is a data science project" --------->  this data science project
 
+def fucn1(text):
+  words = text.split()
+  clean = []
+  for w in words:
+    if w not in stopwords:
+      clean.append(w)
+  return " ".join(clean)
 
 
 
