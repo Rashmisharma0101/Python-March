@@ -1,0 +1,177 @@
+Read a text file and print lines
+
+with open("data.txt", "r") as f:
+  for line in f:
+      print(line.strip())
+
+------------------------------------------------------------
+Count number of lines
+counter = 0
+with open("data.txt") as f:
+    for line in f:
+        counter = counter + 1
+print(counter)
+
+------------------------------------------------------------
+Count words in file
+counter = 0
+with open("data.txt", "r") as f:
+  for line in f:
+    l = line.split()
+    counter = counter + len(l)
+print(counter)
+
+------------------------------------------------------------
+Write to a file
+with open("data.txt", "w") as f:
+  f.write("I am learning")
+------------------------------------------------------------
+Append to file
+with open("data.txt", "a") as f:
+  f.write("I am learning AWS")
+
+------------------------------------------------------------
+Read CSV and print rows
+
+with open("data.csv", "r") as f:
+  reader = csv.reader(f)
+  next(reader)  # skip header
+
+  for row in reader:
+    print(row)
+------------------------------------------------------------
+Total sales
+total = 0
+with open("data.csv", "r"):
+  reader = csv.reader(f)  # reader gives each row as list
+  next(reader)
+
+  for row in header:
+    total = total + (int(row[1]))  # row[1] means take 2nd column
+
+print(total)
+------------------------------------------------------------
+Total sales per product
+sales = {}
+with open("data.csv", "r"):
+  reader = csv.reader(f)
+  next(reader)
+
+  for row in reader:
+    product = row[0]
+    amount = row[1]
+    if product in sales:
+        sales[product] = sales[product] + amount
+    else:
+        sales[product] = amount
+print(sales)
+------------------------------------------------------------
+Find highest sale
+max_sale = 0
+with open("data.csv", "r"):
+  reader = csv.reader(f)
+  next(reader)
+
+  for row in reader:
+    amount = int(row[1])
+    if amount > max_sale:
+      max_sale = amount
+
+print(max_sale)
+
+------------------------------------------------------------
+Filter rows (amount > 150)
+
+with open("data.csv", "r") as f:
+  reader = csv.reader(f)
+  next(reader)
+
+  for row in reader:
+    amount = int(row[1])
+    if amount > 150:
+      print(row)
+
+------------------------------------------------------------
+Extract Gmail users
+
+with open("data.csv", "r") as f:
+    reader = csv.DictReader(f) # It converts each row into a dictionary using column names., can access by column names instead of index
+
+    for row in reader:
+      if "gmail.com" in row["email"]:
+        print(row["name"])
+
+----------------------------------------------------------------
+Average salary
+total, counter = 0, 0
+with open("data.csv", "r"):
+  reader = csv.DictReader(f)  # reader gives each row as list
+  next(reader)
+
+  for row in header:
+    counter = counter + 1
+    total = total + (int(row["salary"]))  # row[1] means take 2nd column
+
+  avg_salary = total / counter
+print(avg_salary)
+
+----------------------------------------------------------------
+Clean salary column into list
+l = []
+with open("data.csv", "r"):
+  reader = csv.DictReader(f)  # reader gives each row as list
+  next(reader)
+
+  for row in reader:
+    l.append(int(row["salary"]))
+
+prit(l)
+
+----------------------------------------------------------------
+Save filtered data (salary > 55000)
+
+with open("data.csv", "r") as f, open("high_salary.csv", "w", newline="") as out:
+  reader = csv.DictReader(f):
+  next(reader)
+
+  writer = csv.DictWriter(out, fieldnames = fieldnames)
+  writer.writeheader()
+
+  for row in reader:
+    if row["salary"] > 55000:
+      writer.writerow(row)
+ ---------------------------------------------------------------- 
+Count email domain frequency
+domain_count = {}
+with open("data.csv","r") as f:
+  reader = csv.DictReader(f):
+  next(reader)
+
+
+  for row in reader:
+    domain = row['email'].split('@')[1]
+
+    if domain in domain_count:
+      domain_count[domain] += 1
+    else:
+      domain_count[domain] = 1
+
+print(domain_count)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
