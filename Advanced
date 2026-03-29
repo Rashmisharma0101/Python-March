@@ -1,0 +1,85 @@
+import pandas as pd
+
+df = pd.DataFrame({
+    'customer_id': [101, 101, 102, 101],
+    'order_date': pd.to_datetime(['2026-01-01','2026-01-05','2026-01-03','2026-01-10']),
+    'amount': [500, 700, 300, 400]
+})
+# # Last 2 orders per customer
+df['rank'] = df.groupby('customer_id')['order_date'].rank(method = 'first', ascending = False)
+last_two = df[df['rank']<=2]
+df['prev_amount'] = df.grouoby('customer_id')['amount'].shift(1)
+-----------------------------------------------------------------------------
+
+sales = pd.DataFrame({
+    'product_id':[1,1,2],
+    'region':['East','West','East'],
+    'revenue':[200,300,150]
+})
+
+# Total revenue per product per region
+
+agg = df.groupby(['product', 'region'])['revenue'].sum()
+
+# Top product per region
+
+agg['rank'] = agg.groupby('region')['revenue'].rank(method = 'first', ascending = False)
+
+top = agg[agg['rank'] == 1]
+
+--------------------------------------------------------------------------------
+# Detect customers with decreasing purchase trend.
+df = df.sort_values(by = ['customerid', 'orderdate'], ascending = [True, True])
+df['prev_amount'] = df.groupby('customerid')['amount'].shift(1)
+
+df['diff'] = df['amount'] - df['prev_amount']
+
+df['tag'] = (df['diff']<0]).astype(int)   # 1 indicate decreasing trend
+df = df.dropna(subset = ['prev_amount'])  # “First transaction has no previous value, 
+# so it should not be considered in trend evaluation.”
+df['tag_sum'] = df.groupby('customerid')['tag'].transform('sum')
+df['num_rows'] = df.groupby('customerid')['tag'].transform('count')
+df_filtered = df[df['tag_sum'] == df['num_rows']]
+df_filtered['customerid'].drop_duplicates()
+--------------------------------------------------------------------------------
+# Encode categorical variables for ML (one-hot / frequency encoding).
+
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder()
+catcols = df.select_dtypes(include = 'object').columns
+encoded = ohe.fit_transform(df[catcols])
+encodef_df=  pd.DataFrame(encoded, columns = ohe.get_features(catcols))
+df_fnal = pd.concat([df.drop(columns = catcols), encoded_df], axis =1)
+
+--------------------------------------------------------------------------------
+
+# frequency encode numerical columns
+
+numcols = df.select_dtypes(include = 'numeric').columns
+
+for i in numcols:
+  freq_map = df[i].value_counts(normalize= True)
+  df[i + 'encoded'] = df[i].map(freq_map)
+
+final_df = df.drop(columns = numcols, axis = 1)
+
+--------------------------------------------------------------------------------
+
+# Split data into train/test and handle missing values dynamically
+from sklearn.model_selection import train_test_split
+X = df.drop('target', axis = 1)
+y = df['target']
+X_train, X_test, Y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+
+X_train[numcols] = X_train[numcols].fillna(X_train[numcols].median())
+X_train[catcols] = X_train[catcols].fillna(X_train[catcols].mode())
+
+df[['age', 'salary']] = df[['age', 'salary']].fillna(df[['age', 'salary']].median())
+
+df[['city', 'gender']] = df[['city', 'gender']].fillna(df[['age', 'salary']].mode())
+
+df['age_missing'] = df['age'].isnull().astype(int)
+
+
+
+
